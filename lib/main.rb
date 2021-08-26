@@ -1,7 +1,11 @@
 require_relative "enumerable.rb"
 
-numbers = (1..6).to_a
-hashy = {milk: 32, "taco"=>"chocolate", baby: "42"}
+def numbers 
+  (1..6).to_a
+end
+def hashy
+  { milk: 32, "taco" => "chocolate", baby: "42" }
+end
 
 puts "my_each vs each: array"
 ret = numbers.my_each { |item| puts "#{item} UwU" }
@@ -49,19 +53,25 @@ puts
 
 puts "my_select vs select: array"
 puts "Greater than 3"
-ret = numbers.my_select {|num| num > 3}
+ret = numbers.my_select { |num| num > 3 }
 puts "returns: #{ret}"
 puts
 
-ret = numbers.select {|num| num > 3}
+ret = numbers.select { |num| num > 3 }
 puts "returns: #{ret}"
 puts
 
 puts "my_select vs select: hash"
 puts "val is a String"
-ret = hashy.my_select {|key,val| val.is_a?(String)}
+ret = hashy.my_select do |key, val|
+  puts "key: #{key}, val: #{val}"
+  val.is_a?(String)
+end
 puts "returns: #{ret}"
 puts
 
-ret = hashy.select {|key,val| val.is_a?(String)}
+ret = hashy.select do |key, val|
+  puts "key: #{key}, val: #{val}"
+  val.is_a?(String)
+end
 puts "returns: #{ret}"

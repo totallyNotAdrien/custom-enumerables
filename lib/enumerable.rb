@@ -37,4 +37,17 @@ module Enumerable
     end
     ret
   end
+
+  def my_all?
+    if block_given?
+      my_each do |item|
+        unless yield(item)
+          return false
+        end
+      end
+      true
+    else
+      my_all? { |item| item }
+    end
+  end
 end
