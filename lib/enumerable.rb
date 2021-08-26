@@ -41,13 +41,33 @@ module Enumerable
   def my_all?
     if block_given?
       my_each do |item|
-        unless yield(item)
-          return false
-        end
+        return false unless yield(item)
       end
       true
     else
       my_all? { |item| item }
+    end
+  end
+
+  def my_any?
+    if block_given?
+      my_each do |item|
+        return true if yield(item)
+      end
+      false
+    else
+      my_any? { |item| item }
+    end
+  end
+
+  def my_none?
+    if block_given?
+      my_each do |item|
+        return false if yield(item)
+      end
+      true
+    else
+      my_none? { |item| item }
     end
   end
 end
