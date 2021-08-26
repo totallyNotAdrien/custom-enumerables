@@ -1,48 +1,67 @@
 require_relative "enumerable.rb"
 
 numbers = (1..6).to_a
-hashy = {milk: 32, taco:"chocolate", baby: "42"}
+hashy = {milk: 32, "taco"=>"chocolate", baby: "42"}
 
 puts "my_each vs each: array"
-ret1 = numbers.my_each { |item| puts "#{item} UwU" }
-puts "returns: #{ret1}"
+ret = numbers.my_each { |item| puts "#{item} UwU" }
+puts "returns: #{ret}"
 puts
 
-ret2 = numbers.each { |item| puts "#{item} OwO" }
-puts "returns: #{ret2}"
+ret = numbers.each { |item| puts "#{item} OwO" }
+puts "returns: #{ret}"
 puts
 
 puts "my_each vs each: hash"
-ret1 = hashy.my_each { |item| puts "#{item} UwU" }
-puts "returns: #{ret1}"
+ret = hashy.my_each { |item| puts "#{item} UwU" }
+puts "returns: #{ret}"
 puts
 
-ret2 = hashy.each { |item| puts "#{item} OwO" }
-puts "returns: #{ret2}"
+ret = hashy.each { |item| puts "#{item} OwO" }
+puts "returns: #{ret}"
 puts
 
 puts "my_each_with_index vs each_with_index: array"
-ret1 = numbers.my_each_with_index do |item, index|
+ret = numbers.my_each_with_index do |item, index|
   puts "Number at index #{index} is #{item}"
 end
-puts "returns: #{ret1}"
+puts "returns: #{ret}"
 puts
 
-ret2 = numbers.each_with_index do |item, index|
+ret = numbers.each_with_index do |item, index|
   puts "Number at index #{index} is #{item}"
 end
-puts "returns: #{ret2}"
+puts "returns: #{ret}"
 puts
 
 puts "my_each_with_index vs each_with_index: hash"
-ret1 = hashy.my_each_with_index do |item, index|
+ret = hashy.my_each_with_index do |item, index|
   puts "Item at index #{index} is #{item}"
 end
-puts "returns: #{ret1}"
+puts "returns: #{ret}"
 puts
 
-ret2 = hashy.each_with_index do |item, index|
+ret = hashy.each_with_index do |item, index|
   puts "Item at index #{index} is #{item}"
 end
-puts "returns: #{ret2}"
+puts "returns: #{ret}"
 puts
+
+puts "my_select vs select: array"
+puts "Greater than 3"
+ret = numbers.my_select {|num| num > 3}
+puts "returns: #{ret}"
+puts
+
+ret = numbers.select {|num| num > 3}
+puts "returns: #{ret}"
+puts
+
+puts "my_select vs select: hash"
+puts "val is a String"
+ret = hashy.my_select {|key,val| val.is_a?(String)}
+puts "returns: #{ret}"
+puts
+
+ret = hashy.select {|key,val| val.is_a?(String)}
+puts "returns: #{ret}"
