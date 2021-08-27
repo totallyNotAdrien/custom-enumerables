@@ -87,4 +87,12 @@ module Enumerable
     end
     num
   end
+
+  def my_map
+    return to_enum(:my_map) unless block_given?
+
+    ret = []
+    my_each {|item| ret << yield(item)}
+    ret
+  end
 end

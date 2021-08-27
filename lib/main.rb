@@ -185,3 +185,28 @@ puts "count:"
 puts "count all entries: #{hashy.count}"
 puts "count string keys: #{hashy.count { |key, _val| key.is_a?(String) }}"
 puts "count string values: #{hashy.count { |_key, val| val.is_a?(String) }}"
+puts
+
+puts "my_map vs map: array"
+puts "numbers: #{numbers}"
+puts "my_map:"
+puts "square everything: #{numbers.my_map { |num| num ** 2 }}"
+puts "even or odd: #{numbers.my_map { |num| num % 2 == 0 ? "even" : "odd" }}"
+puts "divide by 2.0: #{numbers.my_map { |num| num / 2.0 }}"
+puts
+
+puts "map:"
+puts "square everything: #{numbers.map { |num| num ** 2 }}"
+puts "even or odd: #{numbers.map { |num| num % 2 == 0 ? "even" : "odd" }}"
+puts "divide by 2.0: #{numbers.map { |num| num / 2.0 }}"
+puts
+
+puts "my_map vs map: hash"
+puts "my_map:"
+puts "to class of key: #{hashy.my_map{|key,_val| key.class}}"
+puts
+
+puts "map:"
+puts "to class of key: #{hashy.map{|key,_val| key.class}}"
+puts
+
