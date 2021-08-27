@@ -1,7 +1,7 @@
 require_relative "enumerable.rb"
 
 def numbers
-  (1..6).to_a
+  (1..6).to_a << 2
 end
 
 def hashy
@@ -10,20 +10,20 @@ end
 
 #-----------EACH---------------------------------------------
 puts "my_each vs each: array"
-ret = numbers.my_each { |item| puts "#{item} UwU" }
+ret = numbers.my_each { |item| puts "#{item}" }
 puts "returns: #{ret}"
 puts
 
-ret = numbers.each { |item| puts "#{item} OwO" }
+ret = numbers.each { |item| puts "#{item}" }
 puts "returns: #{ret}"
 puts
 
 puts "my_each vs each: hash"
-ret = hashy.my_each { |item| puts "#{item} UwU" }
+ret = hashy.my_each { |item| puts "#{item}" }
 puts "returns: #{ret}"
 puts
 
-ret = hashy.each { |item| puts "#{item} OwO" }
+ret = hashy.each { |item| puts "#{item}" }
 puts "returns: #{ret}"
 puts
 
@@ -159,3 +159,29 @@ ret = hashy.none? do |key, val|
   val.is_a?(String)
 end
 puts "returns: #{ret}"
+puts
+
+#---------COUNT-----------------------------------------------
+puts "my_count vs count: array"
+puts "my_count:"
+puts "count all entries: #{numbers.my_count}"
+puts "count 2s: #{numbers.my_count(2)}"
+puts "count evens: #{numbers.my_count { |num| num % 2 == 0 }}"
+puts
+puts "count:"
+puts "count all entries: #{numbers.count}"
+puts "count 2s: #{numbers.count(2)}"
+puts "count evens: #{numbers.count { |num| num % 2 == 0 }}"
+puts
+
+puts "my_count vs count: hash"
+puts "my_count:"
+puts "count all entries: #{hashy.my_count}"
+puts "count string keys: #{hashy.my_count { |key, _val| key.is_a?(String) }}"
+puts "count string values: #{hashy.my_count { |_key, val| val.is_a?(String) }}"
+puts
+
+puts "count:"
+puts "count all entries: #{hashy.count}"
+puts "count string keys: #{hashy.count { |key, _val| key.is_a?(String) }}"
+puts "count string values: #{hashy.count { |_key, val| val.is_a?(String) }}"

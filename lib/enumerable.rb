@@ -70,4 +70,21 @@ module Enumerable
       my_none? { |item| item }
     end
   end
+
+  def my_count(*args)
+    caller_info = caller.first.split(":")
+    caller_info = caller_info.first(2).join(":")
+    num = 0
+    if args.length == 0
+      if block_given?
+        my_each { |item| num += 1 if yield(item) }
+      else
+        num = self.length
+      end
+    else
+      puts "#{caller_info}: warning: given block not used" if block_given?
+      my_each { |item| num += 1 if item == args[0] }
+    end
+    num
+  end
 end
