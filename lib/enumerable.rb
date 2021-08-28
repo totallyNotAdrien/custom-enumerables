@@ -95,4 +95,16 @@ module Enumerable
     my_each {|item| ret << yield(item)}
     ret
   end
+
+  #only accept start value and/or block
+  def my_reduce(*args)
+    if block_given?
+      if args.length == 0
+        acc = self.first
+      else
+        acc = args[0]
+      end
+    else
+    end
+  end
 end
