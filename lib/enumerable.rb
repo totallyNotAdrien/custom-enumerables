@@ -1,3 +1,4 @@
+require "pry-byebug"
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -92,19 +93,40 @@ module Enumerable
     return to_enum(:my_map) unless block_given?
 
     ret = []
-    my_each {|item| ret << yield(item)}
+    my_each { |item| ret << yield(item) }
     ret
   end
 
-  #only accept start value and/or block
+  #no symbols
   def my_reduce(*args)
-    if block_given?
-      if args.length == 0
-        acc = self.first
-      else
-        acc = args[0]
-      end
+    if args.length == 0
+      acc = self.first
+      the_rest = self.to_a.last(self.length - 1)
+      the_rest.my_each {|item| acc = yield(acc, item)}
+      acc
     else
+      if args[0].is_a?(Symbol)
+        puts "warning: given block not used" if block_given?
+
+        acc = self.first
+        the_rest = self.to_a.last(self.length - 1)
+        the_rest.my_each { |item| acc = acc.send(args[0], item) }
+      elsif args.length > 1 &&
+            !args[0].is_a?(Symbol) && args[1].is_a?(Symbol)
+        puts "warning: given block not used" if block_given?
+
+        acc = args[0]
+        the_rest = self.to_a
+        the_rest.my_each { |item| acc = acc.send(args[1], item) }
+      elsif args.length == 1 && !args[0].is_a?(Symbol)
+        raise LocalJumpError.exception("no block given") unless block_given?
+
+        acc = args[0]
+        self.my_each {|item| acc = yield(acc, item)}
+      elsif args.length > 2
+        raise ArgumentError.exception ("wrong number of arguments (given #{args.length}, expected 0..2)")
+      end
+      acc
     end
   end
 end

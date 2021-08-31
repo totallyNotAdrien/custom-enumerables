@@ -203,10 +203,54 @@ puts
 
 puts "my_map vs map: hash"
 puts "my_map:"
-puts "to class of key: #{hashy.my_map{|key,_val| key.class}}"
+puts "to class of key: #{hashy.my_map { |key, _val| key.class }}"
 puts
 
 puts "map:"
-puts "to class of key: #{hashy.map{|key,_val| key.class}}"
+puts "to class of key: #{hashy.map { |key, _val| key.class }}"
 puts
 
+#---------REDUCE-----------------------------------------------
+def multiply_els_my_reduce(arr)
+  arr.my_reduce(:*)
+end
+
+def multiply_els_reduce(arr)
+  arr.reduce { |sum, num| sum *= num }
+end
+
+puts "my_reduce vs reduce: array"
+puts "my_reduce:"
+puts "multiply everything: " +
+  "#{numbers.join(" * ")} = #{multiply_els_my_reduce(numbers)}"
+
+puts "add everything: symbol: " +
+  "#{numbers.join(" + ")} = #{numbers.my_reduce(:+)}"
+
+puts "add everything: start_val & symbol: " +
+  "#{numbers.join(" + ")} = #{numbers.my_reduce(0, :+)}"
+puts "add everything: block: " +
+  "#{numbers.join(" + ")} = #{numbers.my_reduce { |sum, num| sum + num }}"
+puts
+
+puts "reduce:"
+puts "multiply everything: " +
+       "#{numbers.join(" * ")} = #{multiply_els_reduce(numbers)}"
+
+puts "add everything: symbol: " +
+       "#{numbers.join(" + ")} = #{numbers.reduce(:+)}"
+
+puts "add everything: start_val & symbol: " +
+       "#{numbers.join(" + ")} = #{numbers.reduce(0, :+)}"
+  puts "add everything: block: " +
+    "#{numbers.join(" + ")} = #{numbers.reduce { |sum, num| sum + num }}"
+puts
+
+puts "my_reduce vs reduce: hash"
+puts "my_reduce:"
+puts "combine everything: #{hashy.my_reduce(:+)}"
+puts
+
+puts "reduce:"
+puts "combine everything: #{hashy.reduce(:+)}"
+puts
