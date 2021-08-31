@@ -1,4 +1,5 @@
 require "pry-byebug"
+
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -97,36 +98,41 @@ module Enumerable
     ret
   end
 
-  #no symbols
   def my_reduce(*args)
-    if args.length == 0
+    case args.length
+    when 0
+      raise LocalJumpError.new("no block given") unless block_given?
+
       acc = self.first
       the_rest = self.to_a.last(self.length - 1)
-      the_rest.my_each {|item| acc = yield(acc, item)}
+      the_rest.my_each { |item| acc = yield(acc, item) }
       acc
-    else
+    when 1
       if args[0].is_a?(Symbol)
         puts "warning: given block not used" if block_given?
 
         acc = self.first
         the_rest = self.to_a.last(self.length - 1)
         the_rest.my_each { |item| acc = acc.send(args[0], item) }
-      elsif args.length > 1 &&
-            !args[0].is_a?(Symbol) && args[1].is_a?(Symbol)
+      else
+        raise LocalJumpError.new("no block given") unless block_given?
+
+        acc = args[0]
+        self.my_each { |item| acc = yield(acc, item) }
+      end
+    when 2
+      if !args[0].is_a?(Symbol) && args[1].is_a?(Symbol)
         puts "warning: given block not used" if block_given?
 
         acc = args[0]
         the_rest = self.to_a
         the_rest.my_each { |item| acc = acc.send(args[1], item) }
-      elsif args.length == 1 && !args[0].is_a?(Symbol)
-        raise LocalJumpError.exception("no block given") unless block_given?
-
-        acc = args[0]
-        self.my_each {|item| acc = yield(acc, item)}
-      elsif args.length > 2
-        raise ArgumentError.exception ("wrong number of arguments (given #{args.length}, expected 0..2)")
+      else
+        raise TypeError
       end
-      acc
+    else
+      raise ArgumentError.new ("wrong number of arguments (given #{args.length}, expected 0..2)")
     end
+    acc
   end
 end

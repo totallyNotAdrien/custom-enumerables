@@ -212,7 +212,7 @@ puts
 
 #---------REDUCE-----------------------------------------------
 def multiply_els_my_reduce(arr)
-  arr.my_reduce(:*)
+  arr.my_reduce { |sum, num| sum *= num }
 end
 
 def multiply_els_reduce(arr)
@@ -249,8 +249,10 @@ puts
 puts "my_reduce vs reduce: hash"
 puts "my_reduce:"
 puts "combine everything: #{hashy.my_reduce(:+)}"
+puts "combine everything: block: #{hashy.my_reduce {|sum,item| sum + item}}"
 puts
 
 puts "reduce:"
 puts "combine everything: #{hashy.reduce(:+)}"
+puts "combine everything: block: #{hashy.reduce {|sum,item| sum + item}}"
 puts
