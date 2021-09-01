@@ -90,12 +90,23 @@ module Enumerable
     num
   end
 
-  def my_map
-    return to_enum(:my_map) unless block_given?
+  # def my_map
+  #   return to_enum(:my_map) unless block_given?
 
-    ret = []
-    my_each { |item| ret << yield(item) }
-    ret
+  #   ret = []
+  #   my_each { |item| ret << yield(item) }
+  #   ret
+  # end
+
+  #proc only version
+  def my_map(my_proc)
+    if my_proc.is_a?(Proc)
+      ret = []
+      my_each { |item| ret << my_proc.call(item) }
+      ret
+    else
+      raise TypeError.new("#{my_proc} is not a Proc")
+    end
   end
 
   def my_reduce(*args)

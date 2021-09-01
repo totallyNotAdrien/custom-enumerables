@@ -187,28 +187,29 @@ puts "count string keys: #{hashy.count { |key, _val| key.is_a?(String) }}"
 puts "count string values: #{hashy.count { |_key, val| val.is_a?(String) }}"
 puts
 
-puts "my_map vs map: array"
-puts "numbers: #{numbers}"
-puts "my_map:"
-puts "square everything: #{numbers.my_map { |num| num ** 2 }}"
-puts "even or odd: #{numbers.my_map { |num| num % 2 == 0 ? "even" : "odd" }}"
-puts "divide by 2.0: #{numbers.my_map { |num| num / 2.0 }}"
-puts
+# #---------MAP-----------------------------------------------
+# puts "my_map vs map: array"
+# puts "numbers: #{numbers}"
+# puts "my_map:"
+# puts "square everything: #{numbers.my_map { |num| num ** 2 }}"
+# puts "even or odd: #{numbers.my_map { |num| num % 2 == 0 ? "even" : "odd" }}"
+# puts "divide by 2.0: #{numbers.my_map { |num| num / 2.0 }}"
+# puts
 
-puts "map:"
-puts "square everything: #{numbers.map { |num| num ** 2 }}"
-puts "even or odd: #{numbers.map { |num| num % 2 == 0 ? "even" : "odd" }}"
-puts "divide by 2.0: #{numbers.map { |num| num / 2.0 }}"
-puts
+# puts "map:"
+# puts "square everything: #{numbers.map { |num| num ** 2 }}"
+# puts "even or odd: #{numbers.map { |num| num % 2 == 0 ? "even" : "odd" }}"
+# puts "divide by 2.0: #{numbers.map { |num| num / 2.0 }}"
+# puts
 
-puts "my_map vs map: hash"
-puts "my_map:"
-puts "to class of key: #{hashy.my_map { |key, _val| key.class }}"
-puts
+# puts "my_map vs map: hash"
+# puts "my_map:"
+# puts "to class of key: #{hashy.my_map { |key, _val| key.class }}"
+# puts
 
-puts "map:"
-puts "to class of key: #{hashy.map { |key, _val| key.class }}"
-puts
+# puts "map:"
+# puts "to class of key: #{hashy.map { |key, _val| key.class }}"
+# puts
 
 #---------REDUCE-----------------------------------------------
 def multiply_els_my_reduce(arr)
@@ -222,15 +223,15 @@ end
 puts "my_reduce vs reduce: array"
 puts "my_reduce:"
 puts "multiply everything: " +
-  "#{numbers.join(" * ")} = #{multiply_els_my_reduce(numbers)}"
+    "#{numbers.join(" * ")} = #{multiply_els_my_reduce(numbers)}"
 
 puts "add everything: symbol: " +
-  "#{numbers.join(" + ")} = #{numbers.my_reduce(:+)}"
+    "#{numbers.join(" + ")} = #{numbers.my_reduce(:+)}"
 
 puts "add everything: start_val & symbol: " +
-  "#{numbers.join(" + ")} = #{numbers.my_reduce(0, :+)}"
+    "#{numbers.join(" + ")} = #{numbers.my_reduce(0, :+)}"
 puts "add everything: block: " +
-  "#{numbers.join(" + ")} = #{numbers.my_reduce { |sum, num| sum + num }}"
+    "#{numbers.join(" + ")} = #{numbers.my_reduce { |sum, num| sum + num }}"
 puts
 
 puts "reduce:"
@@ -242,17 +243,45 @@ puts "add everything: symbol: " +
 
 puts "add everything: start_val & symbol: " +
        "#{numbers.join(" + ")} = #{numbers.reduce(0, :+)}"
-  puts "add everything: block: " +
+puts "add everything: block: " +
     "#{numbers.join(" + ")} = #{numbers.reduce { |sum, num| sum + num }}"
 puts
 
 puts "my_reduce vs reduce: hash"
 puts "my_reduce:"
 puts "combine everything: #{hashy.my_reduce(:+)}"
-puts "combine everything: block: #{hashy.my_reduce {|sum,item| sum + item}}"
+puts "combine everything: block: #{hashy.my_reduce { |sum, item| sum + item }}"
 puts
 
 puts "reduce:"
 puts "combine everything: #{hashy.reduce(:+)}"
-puts "combine everything: block: #{hashy.reduce {|sum,item| sum + item}}"
+puts "combine everything: block: #{hashy.reduce { |sum, item| sum + item }}"
+puts
+
+#---------MAP: PROC VERSION-----------------------------------------------
+square = proc { |num| num ** 2 }
+parity = proc { |num| num % 2 == 0 ? "even" : "odd" }
+half = proc { |num| num / 2.0 }
+puts "my_map vs map: proc version: array"
+puts "numbers: #{numbers}"
+puts "my_map:"
+puts "square everything: #{numbers.my_map(square)}"
+puts "even or odd: #{numbers.my_map(parity)}"
+puts "divide by 2.0: #{numbers.my_map(half)}"
+puts
+
+puts "map:"
+puts "square everything: #{numbers.map { |num| num ** 2 }}"
+puts "even or odd: #{numbers.map { |num| num % 2 == 0 ? "even" : "odd" }}"
+puts "divide by 2.0: #{numbers.map { |num| num / 2.0 }}"
+puts
+
+key_class =  lambda { |(key, _val)| key.class }
+puts "my_map vs map: proc version: hash"
+puts "my_map:"
+puts "to class of key: #{hashy.my_map(key_class)}"
+puts
+
+puts "map:"
+puts "to class of key: #{hashy.map { |(key, _val)| key.class }}"
 puts
